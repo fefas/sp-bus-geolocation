@@ -1,0 +1,29 @@
+{
+   "name": "fefas/john",
+   "description": "..",
+
+   "license": "MIT",
+
+   "require": {
+      "php": ">=5.5",
+      "rodrigorigotti/api-olho-vivo": "dev-master"
+   },
+
+   "authors": [
+      {
+         "name": "Felipe Martins",
+         "email": "me@fefas.net",
+         "homepage": "http://github.com/fefas",
+         "role": "Developer"
+      }
+   ],
+
+   "repositories": [
+      {
+         "type": "git",
+         "url": "git@github.com:fefas/api-olho-vivo.git"
+      }
+   ],
+
+   "minimum-stability": "dev"
+}
