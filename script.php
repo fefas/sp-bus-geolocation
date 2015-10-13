@@ -9,25 +9,27 @@ $config = json_decode(file_get_contents('config.json'));
 
 $client = new \RodrigoRigotti\Api\OlhoVivo($config->token);
 
-while (1) {
+$config = json_decode(file_get_contents('config.json'));
 
-    $numLinhas = $config->linhas;
+$numLinhas = $config->linhas;
+$client->authorize();
 
+foreach ($numLinhas as $numLinha) {
 
-    foreach ($numLinhas as $numLinha) {
+    $linha = $client->getBusLine($numLinha);
 
-        $linha = $client->getBusLine($numLinha);
+    $file = fopen("output/$numLinha.csv", "a");
+    $date = date("Y-m-d H:i:s");
+    echo "$numLinha - $date\n";
 
-        $file = fopen("output/$numLinha.csv", "a");
-        $date = date("Y-m-d H:i:s");
+    try {
+       foreach ($linha as $sentido) {
+           $posicoes = $client->getBusPositionByLineCode($sentido->CodigoLinha);
+           foreach ($posicoes->vs as $bus)
+               fwrite($file, "{$numLinha};{$sentido->Sentido};{$date};{$posicoes->hr};{$bus->p};{$bus->px},{$bus->py}\n");
+       }
 
-        foreach ($linha as $sentido) {
-            $posicoes = $client->getBusPositionByLineCode($sentido->CodigoLinha);
-            foreach ($posicoes->vs as $bus)
-                fwrite($file, "{$numLinha};{$sentido->Sentido};{$date};{$posicoes->hr};{$bus->p};{$bus->px},{$bus->py}\n");
-        }
-
-        fclose($file);
+       fclose($file);
+    } catch (\Exception $e) {
     }
-    sleep(60);
 }

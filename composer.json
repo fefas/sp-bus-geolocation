@@ -21,7 +21,7 @@
    "repositories": [
       {
          "type": "git",
-         "url": "git@github.com:fefas/api-olho-vivo.git"
+         "url": "https://github.com/fefas/api-olho-vivo.git"
       }
    ],
 
